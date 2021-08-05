@@ -17,7 +17,8 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        return view('categories.index')->with('categories', category::all());
+        $category = category::latest()->where('status',1)->paginate(5);
+        return view('categories.index',compact('category'));
     }
 
     /**
@@ -25,19 +26,11 @@ class CategoriesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(CreateCategoryRequest $request )
+    public function create()
     {
-
-        category::create([
-
-            'name'=> $request-> name
-               
-            ]);
-    
             
         return view('categories.create');
         
-
     }
 
     /**
@@ -61,7 +54,7 @@ class CategoriesController extends Controller
        session()->flash('success' , 'category created successful.');
 
 
-       return redirect(route('categories.index'));
+       return redirect(route('Categories.index'));
     }
 
     /**
@@ -83,7 +76,7 @@ class CategoriesController extends Controller
      */
     public function edit(category $category)
     {
-        return view('categories.create')->with('category',$category);
+        return view('categories.edit')->with($category->id);
     }
 
     /**
@@ -114,10 +107,13 @@ class CategoriesController extends Controller
      */
     public function destroy(category $category)
     {
-        $category->delete();
-        // return back()->with("error_message" , "Deleted successfully!");
-        sesssion()->flash('sucess', 'Category deleted successfully');
 
-        return redirect(route('destroy'));
+        $category->delete();
+        return back()->with("error_message" , "Deleted successfully!");
+        //$category->delete();
+        // return back()->with("error_message" , "Deleted successfully!");
+        //sesssion()->flash('sucess', 'Category deleted successfully');
+
+        //return redirect(route('destroy'));
     }
 }

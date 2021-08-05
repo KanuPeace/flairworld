@@ -22,7 +22,7 @@
             </div>
         @endif
         
-        <form action="{{ isset($category) ? route('update', $category->id) : route('store')}}" method="POST">
+        <form action="{{ isset($category) ? route('Categories.update', $category->id) : route('Categories.store')}}" method="POST">
             @csrf
             @if( isset($category))
 
@@ -31,7 +31,7 @@
             @endif
 
             <div class="form-group">
-                <label name="name">Name</label>
+                <label name="name">Buisness Name</label>
                 <input type="text" id="name" class="form-control" name="name" value="{{ isset($category) ? $category->name : '' }}">
             </div>
             <div class="form-group">
